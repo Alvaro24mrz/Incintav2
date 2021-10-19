@@ -15,15 +15,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.el.parser.ParseException;
 
-import pe.edu.upc.spring.model.Usuario;
-import pe.edu.upc.spring.service.IUsuarioService;
+import pe.edu.upc.spring.model.Pais;
+import pe.edu.upc.spring.service.IPaisService;
 
 @Controller
 @RequestMapping("/NAME")
-public class UsuarioController {
+public class PaisController {
 
 	@Autowired
-	private IUsuarioService rService;
+	private IPaisService rService;
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -32,24 +32,24 @@ public class UsuarioController {
 	
 	@RequestMapping("/")
 	public String irPaginaListadoUsuarios(Map<String, Object> model) {
-		model.put("listaUsuarios", rService.listar());
-		return "listUsuario"; 
+		model.put("listaPaises", rService.listar());
+		return "listPais"; 
 	}
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
-		model.addAttribute("usuario", new Usuario());
-		return "usuario"; 
+		model.addAttribute("pais", new Pais());
+		return "pais"; 
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute Usuario objUsuario, BindingResult binRes, Model model) 
+	public String registrar(@ModelAttribute Pais objPais, BindingResult binRes, Model model) 
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-			return "usuario";
+			return "pais";
 		else {
-			boolean flag = rService.insertar(objUsuario);
+			boolean flag = rService.insertar(objPais);
 			if (flag)
 				return "redirect:/race/listar";
 			else {
@@ -63,14 +63,14 @@ public class UsuarioController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) 
 		throws ParseException
 	{
-		Optional<Usuario> objUsuario = rService.listarId(id);
-		if (objUsuario == null) {
+		Optional<Pais> objPais = rService.listarId(id);
+		if (objPais == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
 			return "redirect:/race/listar"; //CAMBIAR
 		}
 		else {
-			model.addAttribute("race",objUsuario);
-			return "race";
+			model.addAttribute("pais",objPais);
+			return "pais";
 		}
 	}
 		
@@ -79,21 +79,21 @@ public class UsuarioController {
 		try {
 			if (id!=null && id>0) {
 				rService.eliminar(id);
-				model.put("listaUsuarios", rService.listar());
+				model.put("listaPaises", rService.listar());
 			}
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrio un error");
-			model.put("listaUsuarios", rService.listar());
+			model.put("listaPaises", rService.listar());
 		}
-		return "listUsuario";
+		return "listPais";
 	}
 		
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model ) {
-		model.put("listaUsuarios", rService.listar());
-		return "listUsuario";
+		model.put("listaPaises", rService.listar());
+		return "listPais";
 	}
 	
 }
