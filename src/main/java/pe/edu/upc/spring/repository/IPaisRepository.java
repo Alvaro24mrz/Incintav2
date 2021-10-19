@@ -7,10 +7,10 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
-import pe.edu.upc.spring.model.Usuario;
+import pe.edu.upc.spring.model.Pais;
 
 @Repository
-public interface IUsuarioRepository extends JpaRepository<Usuario, Integer>{
-	@Query("from Usuario r where r.nUsuario like %:nUsuario%")
-	List<Usuario> buscarNombre(@Param("nUsuario") String nameUser);
+public interface IPaisRepository extends JpaRepository<Pais, Integer>{
+	@Query("from Pais r where r.nombrePais like %:nombrePais%")
+	List<Pais> buscarNombre(@Param("nombrePais") String namePais);
 }
