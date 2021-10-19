@@ -8,7 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="PreguntasGestante")
@@ -21,9 +27,9 @@ public class PreguntasGestante implements Serializable {
 	private int idPreguntasGestante;
 	
 	//el fk
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idUsuario;
+	@ManyToOne 
+	@JoinColumn(name="usuarioID", nullable=false)
+	private Usuario usuario;
 	
 	@Column(name="nombreTitulo", length=60, nullable=false)
 	private String nTitulo;
@@ -31,7 +37,9 @@ public class PreguntasGestante implements Serializable {
 	@Column(name="nombrePregunta", length=60, nullable=false)
 	private String tPregunta;
 	
-	@Column(name="fecha", length=60, nullable=false)
+	@Temporal(TemporalType.DATE)
+	@Column(name="fechaPregunta")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date fecha;
 
 	public PreguntasGestante() {
@@ -39,10 +47,10 @@ public class PreguntasGestante implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public PreguntasGestante(int idPreguntasGestante, int idUsuario, String nTitulo, String tPregunta, Date fecha) {
+	public PreguntasGestante(int idPreguntasGestante, Usuario usuario, String nTitulo, String tPregunta, Date fecha) {
 		super();
 		this.idPreguntasGestante = idPreguntasGestante;
-		this.idUsuario = idUsuario;
+		this.usuario = usuario;
 		this.nTitulo = nTitulo;
 		this.tPregunta = tPregunta;
 		this.fecha = fecha;
@@ -56,12 +64,12 @@ public class PreguntasGestante implements Serializable {
 		this.idPreguntasGestante = idPreguntasGestante;
 	}
 
-	public int getIdUsuario() {
-		return idUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public String getnTitulo() {
@@ -87,7 +95,6 @@ public class PreguntasGestante implements Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-
 	
-
+	
 }

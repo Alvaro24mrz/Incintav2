@@ -16,13 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.PreguntasGestante;
+import pe.edu.upc.spring.model.Usuario;
 import pe.edu.upc.spring.service.IPreguntasGestanteService;
+import pe.edu.upc.spring.service.IUsuarioService;
 
 @Controller
 @RequestMapping("/preguntasGestante")
 public class PreguntasGestanteController {
 	@Autowired
 	private IPreguntasGestanteService rService;
+	@Autowired
+	private IUsuarioService uService;
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -30,25 +34,33 @@ public class PreguntasGestanteController {
 	}
 	
 	@RequestMapping("/")
-	public String irPaginaListadoEventos(Map<String, Object> model) {
+	public String irPaginaListadoPreguntasGestante(Map<String, Object> model) {
 		model.put("listaGestantes", rService.listar());
 		return "listGestante"; // "listGestante" es una pagina del frontEnd para listar
 	}
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
+		model.addAttribute("listaUsuario", uService.listar());
+		
 		model.addAttribute("preguntasGestante", new PreguntasGestante());
+		model.addAttribute("usuario", new Usuario());
+		
+		
 		return "preguntasGestante"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute PreguntasGestante objRace, BindingResult binRes, Model model) 
+	public String registrar(@ModelAttribute PreguntasGestante objPg, BindingResult binRes, Model model) 
 		throws ParseException
 	{
 		if (binRes.hasErrors())
+		{
+			model.addAttribute("listaUsuario", uService.listar());
 			return "preguntasGestante";
+		}
 		else {
-			boolean flag = rService.grabar(objRace);
+			boolean flag = rService.grabar(objPg);
 			if (flag)
 				return "redirect:/preguntasGestante/listar";
 			else {
@@ -62,14 +74,18 @@ public class PreguntasGestanteController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) 
 		throws ParseException
 	{
-		Optional<PreguntasGestante> objPreguntasGestante = rService.listarId(id);
-		if (objPreguntasGestante == null) {
+		Optional<PreguntasGestante> objPg = rService.listarId(id);
+		if (objPg == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
 			return "redirect:/preguntasGestante/listar";
 		}
 		else {
-			model.addAttribute("preguntasGestante",objPreguntasGestante);
+			model.addAttribute("listaUsuario", uService.listar());
+			if(objPg.isPresent())
+				objPg.ifPresent(o->model.addAttribute("preguntasGestante",o));
 			return "preguntasGestante";
+			
+			
 		}
 	}
 		
