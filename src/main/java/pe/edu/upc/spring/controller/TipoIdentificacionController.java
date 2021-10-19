@@ -15,18 +15,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.el.parser.ParseException;
 
-import pe.edu.upc.spring.model.PreguntasGestante;
-import pe.edu.upc.spring.model.Usuario;
-import pe.edu.upc.spring.service.IPreguntasGestanteService;
-import pe.edu.upc.spring.service.IUsuarioService;
+import pe.edu.upc.spring.model.Eventos;
+import pe.edu.upc.spring.service.IEventosService;
 
 @Controller
-@RequestMapping("/preguntasGestante")
-public class PreguntasGestanteController {
+@RequestMapping("/Eventos")
+public class TipoIdentificacionController {
 	@Autowired
-	private IPreguntasGestanteService rService;
-	@Autowired
-	private IUsuarioService uService;
+	private IEventosService rService;
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -34,38 +30,30 @@ public class PreguntasGestanteController {
 	}
 	
 	@RequestMapping("/")
-	public String irPaginaListadoPreguntasGestante(Map<String, Object> model) {
-		model.put("listaGestantes", rService.listar());
-		return "listGestante"; // "listGestante" es una pagina del frontEnd para listar
+	public String irPaginaListadoEventos(Map<String, Object> model) {
+		model.put("listaEventos", rService.listar());
+		return "listEvent"; // "listGestante" es una pagina del frontEnd para listar
 	}
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
-		model.addAttribute("listaUsuario", uService.listar());
-		
-		model.addAttribute("preguntasGestante", new PreguntasGestante());
-		model.addAttribute("usuario", new Usuario());
-		
-		
-		return "preguntasGestante"; // "race" es una pagina del frontEnd para insertar y/o modificar
+		model.addAttribute("eventos", new Eventos());
+		return "eventos"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute PreguntasGestante objPg, BindingResult binRes, Model model) 
+	public String registrar(@ModelAttribute Eventos objEventos, BindingResult binRes, Model model) 
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-		{
-			model.addAttribute("listaUsuario", uService.listar());
-			return "preguntasGestante";
-		}
+			return "eventos";
 		else {
-			boolean flag = rService.grabar(objPg);
+			boolean flag = rService.grabar(objEventos);
 			if (flag)
-				return "redirect:/preguntasGestante/listar";
+				return "redirect:/eventos/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/preguntasGestante/irRegistrar";
+				return "redirect:/eventos/irRegistrar";
 			}
 		}
 	}
@@ -74,18 +62,14 @@ public class PreguntasGestanteController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) 
 		throws ParseException
 	{
-		Optional<PreguntasGestante> objPg = rService.listarId(id);
-		if (objPg == null) {
+		Optional<Eventos> objEventos = rService.listarId(id);
+		if (objEventos == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/preguntasGestante/listar";
+			return "redirect:/eventos/listar";
 		}
 		else {
-			model.addAttribute("listaUsuario", uService.listar());
-			if(objPg.isPresent())
-				objPg.ifPresent(o->model.addAttribute("preguntasGestante",o));
-			return "preguntasGestante";
-			
-			
+			model.addAttribute("eventos",objEventos);
+			return "eventos";
 		}
 	}
 		
@@ -100,15 +84,15 @@ public class PreguntasGestanteController {
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrio un error");
-			model.put("listaGestantes", rService.listar());
+			model.put("listaEventos", rService.listar());
 		}
-		return "listGestante";
+		return "listEvent";
 	}
 		
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model ) {
-		model.put("listaGestantes", rService.listar());
-		return "listGestante";
+		model.put("listaEventos", rService.listar());
+		return "listEvent";
 	}
 	
 }

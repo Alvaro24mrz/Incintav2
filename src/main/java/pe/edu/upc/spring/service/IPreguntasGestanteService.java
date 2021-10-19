@@ -11,4 +11,5 @@ public interface IPreguntasGestanteService {
 	public void eliminar(int idPreguntasGestante);
 	public Optional<PreguntasGestante> listarId(int idPreguntasGestante);
 	public List<PreguntasGestante> listar();
+	public List<PreguntasGestante> buscarNombre(String nTitulo);
 }
