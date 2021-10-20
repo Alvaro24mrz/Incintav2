@@ -16,13 +16,17 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Eventos;
+import pe.edu.upc.spring.model.Usuario;
 import pe.edu.upc.spring.service.IEventosService;
+import pe.edu.upc.spring.service.IUsuarioService;
 
 @Controller
 @RequestMapping("/Eventos")
 public class EventosController {
 	@Autowired
 	private IEventosService rService;
+	@Autowired
+	private IUsuarioService uService;
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -37,6 +41,9 @@ public class EventosController {
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
+		model.addAttribute("listaUsuario", uService.listar());
+		
+		model.addAttribute("usuario", new Usuario());
 		model.addAttribute("eventos", new Eventos());
 		return "eventos"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
@@ -46,7 +53,11 @@ public class EventosController {
 		throws ParseException
 	{
 		if (binRes.hasErrors())
+		{
+			
+			model.addAttribute("listaUsuario", uService.listar());
 			return "eventos";
+		}
 		else {
 			boolean flag = rService.grabar(objEventos);
 			if (flag)
@@ -68,7 +79,9 @@ public class EventosController {
 			return "redirect:/eventos/listar";
 		}
 		else {
-			model.addAttribute("eventos",objEventos);
+			model.addAttribute("listaUsuario", uService.listar());
+			if(objEventos.isPresent())
+				objEventos.ifPresent(o->model.addAttribute("eventos",o));
 			return "eventos";
 		}
 	}
@@ -78,7 +91,7 @@ public class EventosController {
 		try {
 			if (id!=null && id>0) {
 				rService.eliminar(id);
-				model.put("listaGestantes", rService.listar());
+				model.put("listaEventos", rService.listar());
 			}
 		}
 		catch(Exception ex) {

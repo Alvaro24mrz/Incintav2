@@ -95,6 +95,6 @@ public class PreguntasGestante implements Serializable {
 	public void setFecha(Date fecha) {
 		this.fecha = fecha;
 	}
-	
+
 	
 }

@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,9 +22,9 @@ public class Eventos implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int idEventos;
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int idUsuario;
+	@ManyToOne 
+	@JoinColumn(name="usuarioID", nullable=false)
+	private Usuario usuario;
 	
 	@Column(name="nombreTitulo", length=60, nullable=false)
 	private String tTitulo;
@@ -47,11 +49,11 @@ public class Eventos implements Serializable {
 		// TODO Auto-generated constructor stub
 	}
 
-	public Eventos(int idEventos, int idUsuario, String tTitulo, Date tDescripcion, String hInicio, String hFin,
+	public Eventos(int idEventos, Usuario usuario, String tTitulo, Date tDescripcion, String hInicio, String hFin,
 			Boolean boolTodoDia, int qRepeticion) {
 		super();
 		this.idEventos = idEventos;
-		this.idUsuario = idUsuario;
+		this.usuario = usuario;
 		this.tTitulo = tTitulo;
 		this.tDescripcion = tDescripcion;
 		this.hInicio = hInicio;
@@ -68,12 +70,12 @@ public class Eventos implements Serializable {
 		this.idEventos = idEventos;
 	}
 
-	public int getIdUsuario() {
-		return idUsuario;
+	public Usuario getUsuario() {
+		return usuario;
 	}
 
-	public void setIdUsuario(int idUsuario) {
-		this.idUsuario = idUsuario;
+	public void setUsuario(Usuario usuario) {
+		this.usuario = usuario;
 	}
 
 	public String gettTitulo() {
@@ -124,5 +126,6 @@ public class Eventos implements Serializable {
 		this.qRepeticion = qRepeticion;
 	}
 
+	
 	
 }
