@@ -16,14 +16,22 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Usuario;
+import pe.edu.upc.spring.model.Pais;
+import pe.edu.upc.spring.model.MetodoDePago;
 import pe.edu.upc.spring.service.IUsuarioService;
+import pe.edu.upc.spring.service.IPaisService;
+import pe.edu.upc.spring.service.IMetodoDePagoService;
 
 @Controller
-@RequestMapping("/NAME")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
 	@Autowired
 	private IUsuarioService rService;
+	@Autowired
+	private IPaisService pService;
+	@Autowired
+	private IMetodoDePagoService mpService;
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -51,10 +59,10 @@ public class UsuarioController {
 		else {
 			boolean flag = rService.insertar(objUsuario);
 			if (flag)
-				return "redirect:/race/listar";
+				return "redirect:/usuario/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/race/irRegistrar";
+				return "redirect:/usuario/irRegistrar";
 			}
 		}
 	}
@@ -66,11 +74,11 @@ public class UsuarioController {
 		Optional<Usuario> objUsuario = rService.listarId(id);
 		if (objUsuario == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/race/listar"; //CAMBIAR
+			return "redirect:/usuario/listar"; //CAMBIAR
 		}
 		else {
-			model.addAttribute("race",objUsuario);
-			return "race";
+			model.addAttribute("usuario",objUsuario);
+			return "usuario";
 		}
 	}
 		

@@ -8,11 +8,13 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-/*
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-*/
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="Usuario")
@@ -35,12 +37,16 @@ public class Usuario implements Serializable {
 	
 	private String numIdentificacion;
 	
+	@Temporal(TemporalType.DATE)
+	@Column(name="fechaNacimiento")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date dNacimiento;
 	
 	/*
 	@ManyToOne
 	@JoinColumn(name="iDTipoIdentificacion", nullable=false)
 	private TipoIdentificacion iDTipoIdentificacion;
+	*/
 	
 	@ManyToOne
 	@JoinColumn(name="iDPais", nullable=false)
@@ -49,19 +55,16 @@ public class Usuario implements Serializable {
 	@ManyToOne
 	@JoinColumn(name="idMetodoPago", nullable=false)
 	private MetodoDePago iDMetodoPago;
-	*/
 	
 	@Column(name="numeroTargeta", nullable=false)
 	private int numMetodoPago;
 
 	public Usuario() {
 		super();
-	}
-	
-	// CONSTRUCTOR
+	}	// CONSTRUCTOR
 
 	public Usuario(int usuarioID, String nUsuario, String uApellido, String uCorreo, String uPassword,
-			String numIdentificacion, Date dNacimiento, int numMetodoPago) {
+			String numIdentificacion, Date dNacimiento, Pais iDPais, MetodoDePago iDMetodoPago, int numMetodoPago) {
 		super();
 		this.usuarioID = usuarioID;
 		this.nUsuario = nUsuario;
@@ -70,10 +73,10 @@ public class Usuario implements Serializable {
 		this.uPassword = uPassword;
 		this.numIdentificacion = numIdentificacion;
 		this.dNacimiento = dNacimiento;
+		this.iDPais = iDPais;
+		this.iDMetodoPago = iDMetodoPago;
 		this.numMetodoPago = numMetodoPago;
-	}
-	
-	// GETTERS AND SETTERS
+	} // GETTERS AND SETTERS
 
 	public int getUsuarioID() {
 		return usuarioID;
@@ -138,5 +141,20 @@ public class Usuario implements Serializable {
 	public void setNumMetodoPago(int numMetodoPago) {
 		this.numMetodoPago = numMetodoPago;
 	}
-	
+
+	public Pais getiDPais() {
+		return iDPais;
+	}
+
+	public void setiDPais(Pais iDPais) {
+		this.iDPais = iDPais;
+	}
+
+	public MetodoDePago getiDMetodoPago() {
+		return iDMetodoPago;
+	}
+
+	public void setiDMetodoPago(MetodoDePago iDMetodoPago) {
+		this.iDMetodoPago = iDMetodoPago;
+	}
 }
