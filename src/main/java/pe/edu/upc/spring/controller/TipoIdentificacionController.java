@@ -15,14 +15,14 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.el.parser.ParseException;
 
-import pe.edu.upc.spring.model.Eventos;
-import pe.edu.upc.spring.service.IEventosService;
+import pe.edu.upc.spring.model.TipoIdentificacion;
+import pe.edu.upc.spring.service.ITipoIdentificacionService;
 
 @Controller
-@RequestMapping("/Eventos")
+@RequestMapping("/tipoIdentificacion")
 public class TipoIdentificacionController {
 	@Autowired
-	private IEventosService rService;
+	private ITipoIdentificacionService rService;
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -30,30 +30,30 @@ public class TipoIdentificacionController {
 	}
 	
 	@RequestMapping("/")
-	public String irPaginaListadoEventos(Map<String, Object> model) {
-		model.put("listaEventos", rService.listar());
-		return "listEvent"; // "listGestante" es una pagina del frontEnd para listar
+	public String irPaginaListadoTipoIdentificacion(Map<String, Object> model) {
+		model.put("listaTipoIdentificacion", rService.listar());
+		return "listTipoIdentificacion"; // "listGestante" es una pagina del frontEnd para listar
 	}
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
-		model.addAttribute("eventos", new Eventos());
-		return "eventos"; // "race" es una pagina del frontEnd para insertar y/o modificar
+		model.addAttribute("tipoIdentificacion", new TipoIdentificacion());
+		return "tipoIdentificacion"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
 	
 	@RequestMapping("/registrar")
-	public String registrar(@ModelAttribute Eventos objEventos, BindingResult binRes, Model model) 
+	public String registrar(@ModelAttribute TipoIdentificacion objTipoIdentificacion, BindingResult binRes, Model model) 
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-			return "eventos";
+			return "tipoIdentificacion";
 		else {
-			boolean flag = rService.grabar(objEventos);
+			boolean flag = rService.grabar(objTipoIdentificacion);
 			if (flag)
-				return "redirect:/eventos/listar";
+				return "redirect:/tipoIdentificacion/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/eventos/irRegistrar";
+				return "redirect:/tipoIdentificacion/irRegistrar";
 			}
 		}
 	}
@@ -62,14 +62,14 @@ public class TipoIdentificacionController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) 
 		throws ParseException
 	{
-		Optional<Eventos> objEventos = rService.listarId(id);
-		if (objEventos == null) {
+		Optional<TipoIdentificacion> objTipoIdentificacion = rService.listarId(id);
+		if (objTipoIdentificacion == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/eventos/listar";
+			return "redirect:/tipoIdentificacion/listar";
 		}
 		else {
-			model.addAttribute("eventos",objEventos);
-			return "eventos";
+			model.addAttribute("tipoIdentificacion",objTipoIdentificacion);
+			return "tipoIdentificacion";
 		}
 	}
 		
@@ -78,21 +78,21 @@ public class TipoIdentificacionController {
 		try {
 			if (id!=null && id>0) {
 				rService.eliminar(id);
-				model.put("listaGestantes", rService.listar());
+				model.put("listaTipoIdentificacion", rService.listar());
 			}
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrio un error");
-			model.put("listaEventos", rService.listar());
+			model.put("listaTipoIdentificacion", rService.listar());
 		}
-		return "listEvent";
+		return "listTipoIdentificacion";
 	}
 		
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model ) {
-		model.put("listaEventos", rService.listar());
-		return "listEvent";
+		model.put("listaTipoIdentificacion", rService.listar());
+		return "listTipoIdentificacion";
 	}
 	
 }

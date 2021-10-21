@@ -24,7 +24,7 @@ import pe.edu.upc.spring.service.IUsuarioService;
 @RequestMapping("/preguntasGestante")
 public class PreguntasGestanteController {
 	@Autowired
-	private IPreguntasGestanteService rService;
+	private IPreguntasGestanteService pService;
 	@Autowired
 	private IUsuarioService uService;
 	
@@ -35,8 +35,8 @@ public class PreguntasGestanteController {
 	
 	@RequestMapping("/")
 	public String irPaginaListadoPreguntasGestante(Map<String, Object> model) {
-		model.put("listaGestantes", rService.listar());
-		return "listGestante"; // "listGestante" es una pagina del frontEnd para listar
+		model.put("listaPreguntasGestantes", pService.listar());
+		return "listPreguntasGestante"; // "listPreguntasGestante" es una pagina del frontEnd para listar
 	}
 
 	@RequestMapping("/irRegistrar")
@@ -60,7 +60,7 @@ public class PreguntasGestanteController {
 			return "preguntasGestante";
 		}
 		else {
-			boolean flag = rService.grabar(objPg);
+			boolean flag = pService.grabar(objPg);
 			if (flag)
 				return "redirect:/preguntasGestante/listar";
 			else {
@@ -74,7 +74,7 @@ public class PreguntasGestanteController {
 	public String modificar(@PathVariable int id, Model model, RedirectAttributes objRedir) 
 		throws ParseException
 	{
-		Optional<PreguntasGestante> objPg = rService.listarId(id);
+		Optional<PreguntasGestante> objPg = pService.listarId(id);
 		if (objPg == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
 			return "redirect:/preguntasGestante/listar";
@@ -93,22 +93,22 @@ public class PreguntasGestanteController {
 	public String eliminar(Map<String, Object> model,  @RequestParam(value="id") Integer id) {
 		try {
 			if (id!=null && id>0) {
-				rService.eliminar(id);
-				model.put("listaGestantes", rService.listar());
+				pService.eliminar(id);
+				model.put("listaPreguntasGestantes", pService.listar());
 			}
 		}
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrio un error");
-			model.put("listaGestantes", rService.listar());
+			model.put("listaPreguntasGestantes", pService.listar());
 		}
-		return "listGestante";
+		return "listPreguntasGestante";
 	}
 		
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model ) {
-		model.put("listaGestantes", rService.listar());
-		return "listGestante";
+		model.put("listaGestantes", pService.listar());
+		return "listPreguntasGestante";
 	}
 	
 }

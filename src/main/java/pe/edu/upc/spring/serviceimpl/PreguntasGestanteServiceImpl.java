@@ -20,26 +20,14 @@ public class PreguntasGestanteServiceImpl implements IPreguntasGestanteService {
 	@Override
 	@Transactional
 	public boolean grabar(PreguntasGestante preguntasGestante) {
-		PreguntasGestante objpg = dPreguntasGestante.save(preguntasGestante);
-		if (objpg == null)
+		PreguntasGestante objPg = dPreguntasGestante.save(preguntasGestante);
+		if (objPg == null)
 			return false;
 		else
 			return true;
 	}
 
-	//@Override
-	//@Transactional
-	//public boolean modificar(Race race) {
-		//boolean flag = false;
-		//try {
-			//dRace.save(race);
-			//flag = true;
-		//}
-		//catch(Exception ex) {
-			//System.out.println("Ocurrio un roche, LUZ ROJA");
-		//}
-		//return flag;
-	//}
+	
 
 	@Override
 	@Transactional
