@@ -38,7 +38,7 @@ public class UnidadController {
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("unidad", new Unidad());
-		return "unidad"; 
+		return "insertUnidad"; 
 	}
 	
 	@RequestMapping("/registrar")
@@ -46,11 +46,11 @@ public class UnidadController {
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-			return "unidad";
+			return "insertUnidad";
 		else {
 			boolean flag = rService.grabar(objUnidad);
 			if (flag)
-				return "redirect:/unidad/listar";
+				return "redirect:/parametro/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
 				return "redirect:/unidad/irRegistrar";
@@ -69,7 +69,7 @@ public class UnidadController {
 		}
 		else {
 			model.addAttribute("unidad",objUnidad);
-			return "unidad";
+			return "insertUnidad";
 		}
 	}
 		

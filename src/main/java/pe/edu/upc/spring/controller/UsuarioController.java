@@ -19,7 +19,7 @@ import pe.edu.upc.spring.model.Usuario;
 import pe.edu.upc.spring.service.IUsuarioService;
 
 @Controller
-@RequestMapping("/NAME")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
 	@Autowired

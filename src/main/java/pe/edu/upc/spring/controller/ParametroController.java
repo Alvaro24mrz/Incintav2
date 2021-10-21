@@ -17,12 +17,18 @@ import com.sun.el.parser.ParseException;
 
 import pe.edu.upc.spring.model.Parametro;
 import pe.edu.upc.spring.service.IParametroService;
+import pe.edu.upc.spring.model.Unidad;
+import pe.edu.upc.spring.service.IUnidadService;
 
 @Controller
 @RequestMapping("/parametro")
 public class ParametroController {
 	@Autowired
 	private IParametroService rService;
+	@Autowired
+	private IUnidadService uService;
+	
+	
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -38,21 +44,29 @@ public class ParametroController {
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("parametro", new Parametro());
-		return "parametro"; 
+		model.addAttribute("unidad", new Unidad());
+		
+		model.addAttribute("listaUnidades", uService.listar());
+		
+		
+		return "insertParametro"; 
 	}
 	
 	@RequestMapping("/registrar")
 	public String registrar(@ModelAttribute Parametro objParametro, BindingResult binRes, Model model) 
 		throws ParseException
 	{
-		if (binRes.hasErrors())
-			return "parametro";
+		if (binRes.hasErrors()) 
+		{
+			model.addAttribute("listaUnidades", uService.listar());
+			return "insertParametro";
+		}
 		else {
 			boolean flag = rService.grabar(objParametro);
 			if (flag)
 				return "redirect:/parametro/listar";
 			else {
-				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
+				model.addAttribute("mensaje", "Ocurrio un problema");
 				return "redirect:/parametro/irRegistrar";
 			}
 		}
@@ -64,12 +78,16 @@ public class ParametroController {
 	{
 		Optional<Parametro> objParametro = rService.listarId(id);
 		if (objParametro == null) {
-			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
+			objRedir.addFlashAttribute("mensaje", "Ocurrio un error");
 			return "redirect:/parametro/listar";
 		}
 		else {
-			model.addAttribute("parametro",objParametro);
-			return "parametro";
+			model.addAttribute("listaUnidades", uService.listar());
+			
+			if(objParametro.isPresent())
+				objParametro.ifPresent(o -> model.addAttribute("parametro",o));
+	
+			return "insertParametro";
 		}
 	}
 		

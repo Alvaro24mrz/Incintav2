@@ -15,14 +15,27 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.el.parser.ParseException;
 
+import pe.edu.upc.spring.model.Parametro;
 import pe.edu.upc.spring.model.Registro;
+import pe.edu.upc.spring.model.Usuario;
+import pe.edu.upc.spring.service.IParametroService;
 import pe.edu.upc.spring.service.IRegistroService;
+import pe.edu.upc.spring.service.IUsuarioService;
 
 @Controller
 @RequestMapping("/registro")
 public class RegistroController {
 	@Autowired
 	private IRegistroService rService;
+	
+	@Autowired
+	private IUsuarioService uService;
+	
+	@Autowired
+	private IParametroService pService;
+	
+	
+	
 	
 	@RequestMapping("/bienvenido")
 	public String irPaginaBienvenida() {
@@ -37,8 +50,14 @@ public class RegistroController {
 
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
+		model.addAttribute("listaUsuarios", uService.listar());
+		model.addAttribute("listaParametros", pService.listar());
+		
 		model.addAttribute("registro", new Registro());
-		return "registro"; 
+		model.addAttribute("usuario", new Usuario());
+		model.addAttribute("parametro", new Parametro());
+		
+		return "insertRegistro"; 
 	}
 	
 	@RequestMapping("/registrar")
@@ -46,13 +65,18 @@ public class RegistroController {
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-			return "registro";
+		{
+			model.addAttribute("listaUsuarios", uService.listar());
+			model.addAttribute("listaParametros", pService.listar());
+			
+			return "insertRegistro";
+		}
 		else {
 			boolean flag = rService.grabar(objRegistro);
 			if (flag)
 				return "redirect:/registro/listar";
 			else {
-				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
+				model.addAttribute("mensaje", "Ocurrio un error");
 				return "redirect:/registro/irRegistrar";
 			}
 		}
@@ -64,12 +88,17 @@ public class RegistroController {
 	{
 		Optional<Registro> objRegistro = rService.listarId(id);
 		if (objRegistro == null) {
-			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
+			objRedir.addFlashAttribute("mensaje", "Ocurrio un error");
 			return "redirect:/registro/listar";
 		}
 		else {
-			model.addAttribute("registro",objRegistro);
-			return "registro";
+			model.addAttribute("listaUsuarios",uService.listar());
+			model.addAttribute("listaParametros",pService.listar());
+
+			if(objRegistro.isPresent())
+				objRegistro.ifPresent(o -> model.addAttribute("registro",o));
+			
+			return "insertRegistro";
 		}
 	}
 		

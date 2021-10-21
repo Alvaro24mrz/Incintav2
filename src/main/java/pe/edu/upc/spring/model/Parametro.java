@@ -11,7 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import pe.edu.upc.spring.model.Unidad;
 
 @Entity
 @Table(name="Parametro")
@@ -26,40 +25,64 @@ public class Parametro implements Serializable {
 	@Column(name="nombreParametro", length=60, nullable=false)
 	private String nParametro;
 	
-	/*
-	 * 
+	
 	@ManyToOne
 	@JoinColumn(name="iDUnidad", nullable=false)
-	private Unidad iDUnidad;
-	 * 
-	 * */
+	private Unidad unidad;
+	 
 	
 
 	public Parametro() {
 		super();
 	}
 
-	public Parametro(int idParametro, String nParametro) {
+
+
+	public Parametro(int idParametro, String nParametro, Unidad unidad) {
 		super();
 		this.idParametro = idParametro;
 		this.nParametro = nParametro;
+		this.unidad = unidad;
 	}
+
+
 
 	public int getIdParametro() {
 		return idParametro;
 	}
 
+
+
 	public void setIdParametro(int idParametro) {
 		this.idParametro = idParametro;
 	}
+
+
 
 	public String getnParametro() {
 		return nParametro;
 	}
 
+
+
 	public void setnParametro(String nParametro) {
 		this.nParametro = nParametro;
 	}
+
+
+
+	public Unidad getUnidad() {
+		return unidad;
+	}
+
+
+
+	public void setUnidad(Unidad unidad) {
+		this.unidad = unidad;
+	}
+
+
+	
 
 	
 	

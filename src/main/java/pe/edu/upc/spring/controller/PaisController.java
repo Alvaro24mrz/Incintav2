@@ -19,7 +19,7 @@ import pe.edu.upc.spring.model.Pais;
 import pe.edu.upc.spring.service.IPaisService;
 
 @Controller
-@RequestMapping("/NAME")
+@RequestMapping("/pais")
 public class PaisController {
 
 	@Autowired
