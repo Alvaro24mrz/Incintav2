@@ -66,7 +66,7 @@ public class PaisController {
 		Optional<Pais> objPais = rService.listarId(id);
 		if (objPais == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/race/listar"; //CAMBIAR
+			return "redirect:/pais/listar"; //CAMBIAR
 		}
 		else {
 			model.addAttribute("pais",objPais);

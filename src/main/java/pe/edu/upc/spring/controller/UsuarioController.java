@@ -19,7 +19,7 @@ import pe.edu.upc.spring.model.Usuario;
 import pe.edu.upc.spring.service.IUsuarioService;
 
 @Controller
-@RequestMapping("/NAME")
+@RequestMapping("/usuario")
 public class UsuarioController {
 
 	@Autowired
@@ -51,10 +51,10 @@ public class UsuarioController {
 		else {
 			boolean flag = rService.insertar(objUsuario);
 			if (flag)
-				return "redirect:/race/listar";
+				return "redirect:/usuario/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/race/irRegistrar";
+				return "redirect:/usuario/irRegistrar";
 			}
 		}
 	}
@@ -66,11 +66,11 @@ public class UsuarioController {
 		Optional<Usuario> objUsuario = rService.listarId(id);
 		if (objUsuario == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/race/listar"; //CAMBIAR
+			return "redirect:/usuario/listar"; //CAMBIAR
 		}
 		else {
-			model.addAttribute("race",objUsuario);
-			return "race";
+			model.addAttribute("usuario",objUsuario);
+			return "usuario";
 		}
 	}
 		
