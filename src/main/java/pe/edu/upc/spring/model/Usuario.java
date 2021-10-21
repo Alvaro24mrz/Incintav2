@@ -58,13 +58,15 @@ public class Usuario implements Serializable {
 	
 	@Column(name="numeroTargeta", nullable=false)
 	private int numMetodoPago;
+	
+	private int semanaGestacion;
 
 	public Usuario() {
 		super();
 	}	// CONSTRUCTOR
 
 	public Usuario(int usuarioID, String nUsuario, String uApellido, String uCorreo, String uPassword,
-			String numIdentificacion, Date dNacimiento, Pais iDPais, MetodoDePago iDMetodoPago, int numMetodoPago) {
+			String numIdentificacion, Date dNacimiento, Pais iDPais, MetodoDePago iDMetodoPago, int numMetodoPago, int semanaGestacion) {
 		super();
 		this.usuarioID = usuarioID;
 		this.nUsuario = nUsuario;
@@ -76,6 +78,7 @@ public class Usuario implements Serializable {
 		this.iDPais = iDPais;
 		this.iDMetodoPago = iDMetodoPago;
 		this.numMetodoPago = numMetodoPago;
+		this.semanaGestacion = semanaGestacion;
 	} // GETTERS AND SETTERS
 
 	public int getUsuarioID() {
@@ -156,5 +159,13 @@ public class Usuario implements Serializable {
 
 	public void setiDMetodoPago(MetodoDePago iDMetodoPago) {
 		this.iDMetodoPago = iDMetodoPago;
+	}
+
+	public int getSemanaGestacion() {
+		return semanaGestacion;
+	}
+
+	public void setSemanaGestacion(int semanaGestacion) {
+		this.semanaGestacion = semanaGestacion;
 	}
 }
