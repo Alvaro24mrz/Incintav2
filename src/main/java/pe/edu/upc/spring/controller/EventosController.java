@@ -21,7 +21,7 @@ import pe.edu.upc.spring.service.IEventosService;
 import pe.edu.upc.spring.service.IUsuarioService;
 
 @Controller
-@RequestMapping("/Eventos")
+@RequestMapping("/eventos")
 public class EventosController {
 	@Autowired
 	private IEventosService rService;

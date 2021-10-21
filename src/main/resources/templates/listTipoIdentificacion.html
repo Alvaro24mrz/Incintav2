@@ -32,7 +32,7 @@
     					
     					<a 	style="border-bottom-color: green" th:href="@{/tipoIdentificacion/irRegistrar}"
     						id="add-row" type="button" class="btn btn-primary btn-md left-block">
-    						<span class="glyphicon glyphicon-plus"></span> Raza
+    						<span class="glyphicon glyphicon-plus"></span> identificacion
     					</a>
     					
 						<a 	style="border-bottom-color: green" th:href="@{/tipoIdentificacion/irBuscar}"
@@ -44,13 +44,11 @@
     						<thead>
     							<tr>
     								<th class="text-center">CODIGO</th>
-    								<th class="text-center">RAZA</th>
-    								<th class="text-center">OPERACION</th>
-    								<th class="text-center">OPERACION</th>
+    								<th class="text-center">identificacion</th>
     							</tr>
     						</thead>
     						<tbody>
-    							<tr th:each="ti: ${listaRazas}">
+    							<tr th:each="ti: ${listaTipoIdentificacion}">
     								<td th:text="${ti.idTipoIdentificacion}"></td>
     								<td th:text="${ti.nIdentificacion}"></td>
     								<td><a th:href="@{/tipoIdentificacion/eliminar?id=}+${ti.idTipoIdentificacion}">Eliminar</a></td>    								
