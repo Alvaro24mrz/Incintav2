@@ -19,7 +19,7 @@ import pe.edu.upc.spring.model.Pais;
 import pe.edu.upc.spring.service.IPaisService;
 
 @Controller
-@RequestMapping("/pais")
+@RequestMapping("/insertarPaises")
 public class PaisController {
 
 	@Autowired
@@ -39,7 +39,7 @@ public class PaisController {
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("pais", new Pais());
-		return "pais"; 
+		return "insertarPaises"; 
 	}
 	
 	@RequestMapping("/registrar")
@@ -47,14 +47,14 @@ public class PaisController {
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-			return "pais";
+			return "insertarPaises";
 		else {
 			boolean flag = rService.insertar(objPais);
 			if (flag)
-				return "redirect:/pais/listar";
+				return "redirect:/insertarPaises/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/pais/irRegistrar";
+				return "redirect:/insertarPaises/irRegistrar";
 			}
 		}
 	}
@@ -66,11 +66,11 @@ public class PaisController {
 		Optional<Pais> objPais = rService.listarId(id);
 		if (objPais == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/pais/listar"; //CAMBIAR
+			return "redirect:/insertarPaises/listar"; //CAMBIAR
 		}
 		else {
 			model.addAttribute("pais",objPais);
-			return "pais";
+			return "insertarPaises";
 		}
 	}
 		

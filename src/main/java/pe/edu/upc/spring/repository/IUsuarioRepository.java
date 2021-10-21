@@ -11,6 +11,12 @@ import pe.edu.upc.spring.model.Usuario;
 
 @Repository
 public interface IUsuarioRepository extends JpaRepository<Usuario, Integer>{
-	@Query("from Usuario r where r.nUsuario like %:nUsuario%")
+	@Query("from Usuario u where u.nUsuario like %:nUsuario%")
 	List<Usuario> buscarNombre(@Param("nUsuario") String nameUser);
+	
+	@Query("from Usuario u where u.uApellido like %:uApellido%")
+	List<Usuario> buscarApellido(@Param("uApellido") String uApellido);
+	
+	@Query("from Usuario u where u.numIdentificacion like %:numIdentificacion%")
+	List<Usuario> buscarDNI(@Param("numIdentificacion") int numIdentificacion);
 }

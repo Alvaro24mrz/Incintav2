@@ -63,4 +63,16 @@ public class UsuarioServiceImpl implements IUsuarioService{
 	public List<Usuario> buscarNombre(String nameUser) {
 		return dUsuario.buscarNombre(nameUser);
 	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Usuario> buscarApellido(String uApellido) {
+		return dUsuario.buscarApellido(uApellido);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Usuario> buscarDNI(int numIdentificacion) {
+		return dUsuario.buscarDNI(numIdentificacion);
+	}
 }
