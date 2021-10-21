@@ -47,7 +47,7 @@ public class PreguntasGestanteController {
 		model.addAttribute("usuario", new Usuario());
 		
 		
-		return "preguntasGestante"; // "race" es una pagina del frontEnd para insertar y/o modificar
+		return "insertPreguntasGestante"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
 	
 	@RequestMapping("/registrar")
@@ -57,15 +57,15 @@ public class PreguntasGestanteController {
 		if (binRes.hasErrors())
 		{
 			model.addAttribute("listaUsuario", uService.listar());
-			return "preguntasGestante";
+			return "insertPreguntasGestante";
 		}
 		else {
 			boolean flag = pService.grabar(objPg);
 			if (flag)
-				return "redirect:/preguntasGestante/listar";
+				return "redirect:/insertPreguntasGestante/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/preguntasGestante/irRegistrar";
+				return "redirect:/insertPreguntasGestante/irRegistrar";
 			}
 		}
 	}
@@ -77,13 +77,13 @@ public class PreguntasGestanteController {
 		Optional<PreguntasGestante> objPg = pService.listarId(id);
 		if (objPg == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/preguntasGestante/listar";
+			return "redirect:/insertPreguntasGestante/listar";
 		}
 		else {
 			model.addAttribute("listaUsuario", uService.listar());
 			if(objPg.isPresent())
 				objPg.ifPresent(o->model.addAttribute("preguntasGestante",o));
-			return "preguntasGestante";
+			return "insertPreguntasGestante";
 			
 			
 		}
@@ -100,14 +100,14 @@ public class PreguntasGestanteController {
 		catch(Exception ex) {
 			System.out.println(ex.getMessage());
 			model.put("mensaje", "Ocurrio un error");
-			model.put("listaPreguntasGestantes", pService.listar());
+			model.put("listaPreguntasGestante", pService.listar());
 		}
 		return "listPreguntasGestante";
 	}
 		
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model ) {
-		model.put("listaGestantes", pService.listar());
+		model.put("listaPreguntasGestante", pService.listar());
 		return "listPreguntasGestante";
 	}
 	

@@ -36,7 +36,7 @@ public class EventosController {
 	@RequestMapping("/")
 	public String irPaginaListadoEventos(Map<String, Object> model) {
 		model.put("listaEventos", rService.listar());
-		return "listEvent"; // "listGestante" es una pagina del frontEnd para listar
+		return "listEventos"; // "listGestante" es una pagina del frontEnd para listar
 	}
 
 	@RequestMapping("/irRegistrar")
@@ -45,7 +45,7 @@ public class EventosController {
 		
 		model.addAttribute("usuario", new Usuario());
 		model.addAttribute("eventos", new Eventos());
-		return "eventos"; // "race" es una pagina del frontEnd para insertar y/o modificar
+		return "insertEventos"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
 	
 	@RequestMapping("/registrar")
@@ -56,15 +56,15 @@ public class EventosController {
 		{
 			
 			model.addAttribute("listaUsuario", uService.listar());
-			return "eventos";
+			return "insertEventos";
 		}
 		else {
 			boolean flag = rService.grabar(objEventos);
 			if (flag)
-				return "redirect:/eventos/listar";
+				return "redirect:/insertEventos/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/eventos/irRegistrar";
+				return "redirect:/insertEventos/irRegistrar";
 			}
 		}
 	}
@@ -76,13 +76,13 @@ public class EventosController {
 		Optional<Eventos> objEventos = rService.listarId(id);
 		if (objEventos == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/eventos/listar";
+			return "redirect:/insertEventos/listar";
 		}
 		else {
 			model.addAttribute("listaUsuario", uService.listar());
 			if(objEventos.isPresent())
 				objEventos.ifPresent(o->model.addAttribute("eventos",o));
-			return "eventos";
+			return "insertEventos";
 		}
 	}
 		
@@ -99,13 +99,13 @@ public class EventosController {
 			model.put("mensaje", "Ocurrio un error");
 			model.put("listaEventos", rService.listar());
 		}
-		return "listEvent";
+		return "listEventos";
 	}
 		
 	@RequestMapping("/listar")
 	public String listar(Map<String, Object> model ) {
 		model.put("listaEventos", rService.listar());
-		return "listEvent";
+		return "listEventos";
 	}
 	
 }

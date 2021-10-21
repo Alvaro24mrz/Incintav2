@@ -38,7 +38,7 @@ public class TipoIdentificacionController {
 	@RequestMapping("/irRegistrar")
 	public String irPaginaRegistrar(Model model) {
 		model.addAttribute("tipoIdentificacion", new TipoIdentificacion());
-		return "tipoIdentificacion"; // "race" es una pagina del frontEnd para insertar y/o modificar
+		return "insertTipoIdentificacion"; // "race" es una pagina del frontEnd para insertar y/o modificar
 	}
 	
 	@RequestMapping("/registrar")
@@ -46,14 +46,14 @@ public class TipoIdentificacionController {
 		throws ParseException
 	{
 		if (binRes.hasErrors())
-			return "tipoIdentificacion";
+			return "insertTipoIdentificacion";
 		else {
 			boolean flag = rService.grabar(objTipoIdentificacion);
 			if (flag)
 				return "redirect:/tipoIdentificacion/listar";
 			else {
 				model.addAttribute("mensaje", "Ocurrio un rochezaso, LUZ ROJA");
-				return "redirect:/tipoIdentificacion/irRegistrar";
+				return "redirect:/insertTipoIdentificacion/irRegistrar";
 			}
 		}
 	}
@@ -65,11 +65,11 @@ public class TipoIdentificacionController {
 		Optional<TipoIdentificacion> objTipoIdentificacion = rService.listarId(id);
 		if (objTipoIdentificacion == null) {
 			objRedir.addFlashAttribute("mensaje", "Ocurrio un roche, LUZ ROJA");
-			return "redirect:/tipoIdentificacion/listar";
+			return "redirect:/insertTipoIdentificacion/listar";
 		}
 		else {
 			model.addAttribute("tipoIdentificacion",objTipoIdentificacion);
-			return "tipoIdentificacion";
+			return "insertTipoIdentificacion";
 		}
 	}
 		

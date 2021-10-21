@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name="Eventos")
@@ -38,8 +42,9 @@ public class Eventos implements Serializable {
 	@Column(name="fechaFin", length=60, nullable=true)
 	private String hFin;
 	
+	
 	@Column(name="todoElDia", length=60, nullable=true)
-	private Boolean boolTodoDia;
+	private String boolTodoDia;
 	
 	@Column(name="Repeticion", length=60, nullable=true)
 	private int qRepeticion;
@@ -50,7 +55,7 @@ public class Eventos implements Serializable {
 	}
 
 	public Eventos(int idEventos, Usuario usuario, String tTitulo, Date tDescripcion, String hInicio, String hFin,
-			Boolean boolTodoDia, int qRepeticion) {
+			String boolTodoDia, int qRepeticion) {
 		super();
 		this.idEventos = idEventos;
 		this.usuario = usuario;
@@ -110,11 +115,11 @@ public class Eventos implements Serializable {
 		this.hFin = hFin;
 	}
 
-	public Boolean getBoolTodoDia() {
+	public String getBoolTodoDia() {
 		return boolTodoDia;
 	}
 
-	public void setBoolTodoDia(Boolean boolTodoDia) {
+	public void setBoolTodoDia(String boolTodoDia) {
 		this.boolTodoDia = boolTodoDia;
 	}
 
@@ -127,5 +132,6 @@ public class Eventos implements Serializable {
 	}
 
 	
+
 	
 }
