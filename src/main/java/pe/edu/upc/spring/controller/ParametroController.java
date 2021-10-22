@@ -1,5 +1,6 @@
 package pe.edu.upc.spring.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -111,6 +112,34 @@ public class ParametroController {
 	public String listar(Map<String, Object> model ) {
 		model.put("listaParametros", rService.listar());
 		return "listParametro";
+	}
+	
+	
+	
+	
+	@RequestMapping("/irSearch")
+	public String irBuscar(Model model ) 
+	{
+		model.addAttribute("parametro", new Parametro());
+		return "searchParametro";
+	}
+	
+	@RequestMapping("/searchParametro")
+	public String buscar(Map<String, Object> model, @ModelAttribute Parametro parametro ) throws ParseException
+	{
+		
+		
+		List<Parametro> listaParametros;
+		parametro.setnParametro(parametro.getnParametro());
+		listaParametros = rService.buscarNombre(parametro.getnParametro());
+		
+		
+		if(listaParametros.isEmpty()) {
+			model.put("mensaje", "No existen coincidencias");
+		}
+		
+		model.put("listaParametros", listaParametros);
+		return "searchParametro";
 	}
 	
 }

@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.edu.upc.spring.model.Unidad;
+import pe.edu.upc.spring.model.Unidad;
 import pe.edu.upc.spring.repository.IUnidadRepository;
 import pe.edu.upc.spring.service.IUnidadService;
 
@@ -43,6 +44,19 @@ public class UnidadServiceImpl implements IUnidadService {
 	@Transactional(readOnly = true)
 	public List<Unidad> listar() {
 		return dUnidad.findAll();
+	}
+	
+	
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<Unidad> buscarId(int idUnidad) {
+		return dUnidad.findById(idUnidad);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Unidad> buscarNombre(String nUnidad) {
+		return dUnidad.buscarNombre(nUnidad);
 	}
 
 	

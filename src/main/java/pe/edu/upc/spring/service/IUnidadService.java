@@ -10,4 +10,8 @@ public interface IUnidadService {
 	public void eliminar(int idUnidad);
 	public Optional<Unidad> listarId(int idUnidad);
 	public List<Unidad> listar();
+	
+	public Optional<Unidad> buscarId(int idUnidad);
+	public List<Unidad> buscarNombre(String nUnidad);
+
 }

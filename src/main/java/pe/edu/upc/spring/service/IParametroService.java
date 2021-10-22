@@ -10,4 +10,7 @@ public interface IParametroService {
 	public void eliminar(int idParametro);
 	public Optional<Parametro> listarId(int idParametro);
 	public List<Parametro> listar();
+	
+	public Optional<Parametro> buscarId(int idParametro);
+	public List<Parametro> buscarNombre(String nParametro);
 }

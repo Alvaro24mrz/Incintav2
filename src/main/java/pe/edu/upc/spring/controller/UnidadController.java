@@ -1,5 +1,6 @@
 package pe.edu.upc.spring.controller;
 
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -15,6 +16,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sun.el.parser.ParseException;
 
+import pe.edu.upc.spring.model.Parametro;
 import pe.edu.upc.spring.model.Unidad;
 import pe.edu.upc.spring.service.IUnidadService;
 
@@ -93,6 +95,32 @@ public class UnidadController {
 	public String listar(Map<String, Object> model ) {
 		model.put("listaUnidades", rService.listar());
 		return "listUnidad";
+	}
+	
+	
+	@RequestMapping("/irSearch")
+	public String irBuscar(Model model ) 
+	{
+		model.addAttribute("unidad", new Unidad());
+		return "searchUnidad";
+	}
+	
+	@RequestMapping("/searchUnidad")
+	public String buscar(Map<String, Object> model, @ModelAttribute Unidad unidad ) throws ParseException
+	{
+		
+		
+		List<Unidad> listaUnidades;
+		unidad.setnUnidad(unidad.getnUnidad());
+		listaUnidades = rService.buscarNombre(unidad.getnUnidad());
+		
+		
+		if(listaUnidades.isEmpty()) {
+			model.put("mensaje", "No existen coincidencias");
+		}
+		
+		model.put("listaUnidades", listaUnidades);
+		return "searchUnidad";
 	}
 	
 }

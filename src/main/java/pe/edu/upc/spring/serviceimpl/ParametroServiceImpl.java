@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import pe.edu.upc.spring.model.Parametro;
+import pe.edu.upc.spring.model.Parametro;
 import pe.edu.upc.spring.repository.IParametroRepository;
 import pe.edu.upc.spring.service.IParametroService;
 
@@ -46,5 +47,16 @@ public class ParametroServiceImpl implements IParametroService {
 	}
 
 	
+	@Override
+	@Transactional(readOnly = true)
+	public Optional<Parametro> buscarId(int idParametro) {
+		return dParametro.findById(idParametro);
+	}
+	
+	@Override
+	@Transactional(readOnly = true)
+	public List<Parametro> buscarNombre(String nParametro) {
+		return dParametro.buscarNombre(nParametro);
+	}
 
 }
